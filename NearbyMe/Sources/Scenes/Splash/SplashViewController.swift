@@ -21,4 +21,23 @@ class SplashViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //ciclo de vida da tela
+    override func viewDidLoad(){
+        //quando a tela acaba de carregar, executa o q esta aqui dentro
+        super.viewDidLoad()
+        setup()
+    }
+    
+    //construtor da tela
+    private func setup() {
+        guard let createdView = contentView else {return}
+        //adicionar a view
+        self.view.addSubview(createdView)
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
+        
+    }
 }
