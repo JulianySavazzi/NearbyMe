@@ -8,15 +8,25 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    //Essa classe controla as cenas que estao sendo vistas
 
     var window: UIWindow?
+    var flowController: NearbyMeFlowController?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        //procurando a scene
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let window = UIWindow(windowScene: windowScene)
+        flowController = NearbyMeFlowController()
+        //controlador principal vai o usar o metodo start da NearbyMeFlowController -> Splash
+        let rootViewController = flowController?.start()
+        
+        window.rootViewController = rootViewController
+        self.window = window
+        window.makeKeyAndVisible()
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
