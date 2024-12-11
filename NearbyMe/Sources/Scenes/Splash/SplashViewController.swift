@@ -10,7 +10,7 @@ import UIKit
 
 //classe root
 class SplashViewController: UIViewController {
-    let contentView: SplashView?
+    let contentView: SplashView
         
     //obrigatorio ter construtor
     init(contentView: SplashView) {
@@ -31,13 +31,25 @@ class SplashViewController: UIViewController {
     
     //construtor da tela
     private func setup() {
-        guard let createdView = contentView else {return}
         //adicionar a view
-        self.view.addSubview(createdView)
+        self.view.addSubview(contentView)
+        self.navigationController?.navigationBar.isHidden = true
+        self.view.backgroundColor = Colors.purpleLight
+        
         setupConstraints()
     }
     
+    //conteudo que aparece dentro da tela
     private func setupConstraints() {
+        //desativando constaints do storyboard
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         
+        //ligando as ancoras top, left, right e bottom da view as ancoras da viewController
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
