@@ -12,6 +12,7 @@ class SplashView: UIView {
     //layout da tela
     override init(frame: CGRect) { //sobreescrever o construtor
         super.init(frame: frame)
+        setupUI() //carregar o conteudo da tela
     }
     
     required init?(coder: NSCoder) {
