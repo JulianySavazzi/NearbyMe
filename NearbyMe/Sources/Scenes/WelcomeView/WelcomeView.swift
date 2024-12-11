@@ -39,6 +39,16 @@ class WelcomeView:UIView {
         return stackView
     }()
     
+    private let startButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Começar", for: .normal)
+        button.backgroundColor = Colors.purpleBase
+        button.setTitleColor(Colors.gray100, for: .normal)
+        button.layer.cornerRadius = 8 //bordas arredondadas
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -50,11 +60,36 @@ class WelcomeView:UIView {
     
     private func setupUI() {
         setupTips() //metodo para utilizar o componente para a tela de tips
+        addSubview(logoImageView)
+        addSubview(welcomeLabel)
+        addSubview(descriptionLabel)
+        addSubview(tipsStackView)
+        addSubview(startButton)
         setupConstraints()
     }
     
     private func setupConstraints() {
-        NS
+        //ao posicionar o constraint: sempre que a constante for para baixo e para direita ela é negativa
+        NSLayoutConstraint.activate([
+            logoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            logoImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
+            logoImageView.widthAnchor.constraint(equalToConstant: 48),
+            logoImageView.heightAnchor.constraint(equalToConstant: 48),
+            
+            welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 8),
+            welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 4),
+            descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            
+            tipsStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8),
+            tipsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            tipsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            
+            startButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 8),
+            startButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            startButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8)
+        ])
     }
     
     private func setupTips() {
@@ -71,11 +106,21 @@ class WelcomeView:UIView {
             title: "Ative o cupom com QR Code",
             description: "Escaneie o código no estabelecimento para usar o benefício")
         
-        //forcando o app a usar o icone quando eu tenho certeza que ele existe -> nao recomendado pois se nao achar o icone, o app trava
         let tip3 = TipsView(
-            icon: UIImage(named: "ticketIcon")!,
+            icon: UIImage(named: "ticketIcon") ?? UIImage(),
             title: "Garanta vantagens perto de você",
             description: "Ative cupons onde estiver, em diferentes tipos de estabelecimento ")
+        
+        //  //forcando o app a usar o icone quando eu tenho certeza que ele existe -> nao recomendado pois se nao achar o icone, o app trava
+        //        let tip3 = TipsView(
+        //            icon: UIImage(named: "ticketIcon")!,
+        //            title: "Garanta vantagens perto de você",
+        //            description: "Ative cupons onde estiver, em diferentes tipos de estabelecimento ")
+        
+        //adicionando os componentes no componente StackView
+        tipsStackView.addArrangedSubview(tip1)
+        tipsStackView.addArrangedSubview(tip2)
+        tipsStackView.addArrangedSubview(tip3)
     }
     
 }
