@@ -11,10 +11,13 @@ import UIKit
 //classe root
 class SplashViewController: UIViewController {
     let contentView: SplashView
+    //usamos weak var para evitar memory leak -> "gerenciador de memoria do swift = ARC"
+    weak var delegate: SplashFlowDelegate?
         
     //obrigatorio ter construtor
-    init(contentView: SplashView) {
+    init(contentView: SplashView, delegate: SplashFlowDelegate) {
         self.contentView = contentView
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,6 +30,8 @@ class SplashViewController: UIViewController {
         //quando a tela acaba de carregar, executa o q esta aqui dentro
         super.viewDidLoad()
         setup()
+        
+        decideFlow()
     }
     
     //construtor da tela
@@ -51,5 +56,12 @@ class SplashViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    //decide para qual tela o usuario vai -> home ou tela de dicas
+    private func decideFlow() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){ [weak self] in
+            self?.delegate?.decideNavigationFlow()
+        }
     }
 }

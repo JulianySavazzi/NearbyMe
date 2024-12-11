@@ -18,12 +18,14 @@ public class TipsView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = Colors.gray600
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let description = UILabel()
+        description.textColor = Colors.gray600
         description.translatesAutoresizingMaskIntoConstraints = false
         return description
     }()
