@@ -58,8 +58,24 @@ class WelcomeView:UIView {
     }
     
     private func setupTips() {
+        //usando guard let para verificar se o icone existe antes de usa-lo
+        guard let icon1 = UIImage(named: "mapIcon") else {return}
+        let tip1 = TipsView(
+            icon: icon1,
+            title: "Encontre estabelecimentos",
+            description: "Veja locais perto de você que são parceiros Nearby")
         
-        let tip1 = TipsView(icon: UIImage(named: "mapIcon"), title: "Encontre estabelecimentos", description: "Veja locais perto de você que são parceiros Nearby")
+        //usando ternario para usar o icone ou um objeto vazio do msm tipo
+        let tip2 = TipsView(
+            icon: UIImage(named: "qrcodeIcon") ?? UIImage(),
+            title: "Ative o cupom com QR Code",
+            description: "Escaneie o código no estabelecimento para usar o benefício")
+        
+        //forcando o app a usar o icone quando eu tenho certeza que ele existe -> nao recomendado pois se nao achar o icone, o app trava
+        let tip3 = TipsView(
+            icon: UIImage(named: "ticketIcon")!,
+            title: "Garanta vantagens perto de você",
+            description: "Ative cupons onde estiver, em diferentes tipos de estabelecimento ")
     }
     
 }
