@@ -88,10 +88,13 @@ class HomeView: UIView {
         addSubview(mapView)
         addSubview(filterScrollView)
         addSubview(containerView)
-        filterStackView.addSubview(filterStackView)
+        //botoes que filtram os lugares no mapa
+        filterScrollView.addSubview(filterStackView)
+        //lista de locais com foto, descricao e cupons de desconto
         containerView.addSubview(dragIndicatorView)
         containerView.addSubview(descriptionLabel)
         containerView.addSubview(placesTableView)
+        
         setupConstraints()
     }
 
