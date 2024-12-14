@@ -7,7 +7,7 @@
 
 import Foundation
 
-//Models contem a regra de negocio e o modelo de dados das classes - são feitas usando struct (estrutura de dados)
+//Models: modelo de dados das classes, de acordo com a regra de negocio  - são feitas usando struct (estrutura de dados)
 struct Place: Decodable { //model sera populada pela API do backend
     let id: String
     let name: String
