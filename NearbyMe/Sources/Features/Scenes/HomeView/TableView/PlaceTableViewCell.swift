@@ -10,7 +10,7 @@ import UIKit
 
 //lista de elementos visual
 class PlaceTableViewCell: UITableViewCell {
-    static let identifier = "PlaceTableCell"
+    static let identifier = "PlaceTableViewCell"
     
     let itemImageView: UIImageView = {
         let imageView = UIImageView()
@@ -68,7 +68,7 @@ class PlaceTableViewCell: UITableViewCell {
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: <#T##UITableViewCell.CellStyle#>, reuseIdentifier: <#T##String?#>)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
     
