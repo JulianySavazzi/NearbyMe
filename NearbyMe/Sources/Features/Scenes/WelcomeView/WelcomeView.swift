@@ -19,7 +19,9 @@ class WelcomeView:UIView {
     private let welcomeLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.gray600
+        label.font = Typography.titleXL
         label.text = "Boas vindas ao Nearby Me!"
+        label.numberOfLines = 0 //quebra de linha automatica
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,7 +29,19 @@ class WelcomeView:UIView {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.gray600
+        label.font = Typography.textMD
         label.text = "Tenha cupons de vantagem para usar em seus estabelecimentos favoritos."
+        label.numberOfLines = 0 //quebra de linha automatica
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let subTextForTips: UILabel = {
+        let label = UILabel()
+        label.textColor = Colors.gray600
+        label.font = Typography.textMD
+        label.text = "Veja como funciona:"
+        label.numberOfLines = 0 //quebra de linha automatica
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -35,7 +49,7 @@ class WelcomeView:UIView {
     //UIStackView -> componente que cria uma pilha de outros componentes
     private let tipsStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.spacing = 16
+        stackView.spacing = 24
         stackView.axis = .vertical //eixo y ou x
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -45,6 +59,7 @@ class WelcomeView:UIView {
         let button = UIButton(type: .system)
         button.setTitle("Começar", for: .normal)
         button.backgroundColor = Colors.purpleBase
+        button.titleLabel?.font = Typography.action
         button.setTitleColor(Colors.gray100, for: .normal)
         button.layer.cornerRadius = 8 //bordas arredondadas
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -61,10 +76,12 @@ class WelcomeView:UIView {
     }
     
     private func setupUI() {
+        //devemos adicionar os elementos na ordem que estao dispostos na tela
         setupTips() //metodo para utilizar o componente para a tela de tips
         addSubview(logoImageView)
         addSubview(welcomeLabel)
         addSubview(descriptionLabel)
+        addSubview(subTextForTips)
         addSubview(tipsStackView)
         addSubview(startButton)
         setupConstraints()
@@ -79,12 +96,17 @@ class WelcomeView:UIView {
             logoImageView.heightAnchor.constraint(equalToConstant: 48),
             
             welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 24),
-            welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             
-            descriptionLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 16),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             
-            tipsStackView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
+            subTextForTips.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 24),
+            subTextForTips.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            subTextForTips.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            
+            tipsStackView.topAnchor.constraint(equalTo: subTextForTips.bottomAnchor, constant: 24),
             tipsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             tipsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
             
@@ -113,13 +135,7 @@ class WelcomeView:UIView {
             icon: UIImage(named: "ticketIcon") ?? UIImage(),
             title: "Garanta vantagens perto de você",
             description: "Ative cupons onde estiver, em diferentes tipos de estabelecimento ")
-        
-        //  //forcando o app a usar o icone quando eu tenho certeza que ele existe -> nao recomendado pois se nao achar o icone, o app trava
-        //        let tip3 = TipsView(
-        //            icon: UIImage(named: "ticketIcon")!,
-        //            title: "Garanta vantagens perto de você",
-        //            description: "Ative cupons onde estiver, em diferentes tipos de estabelecimento ")
-        
+                
         //adicionando os componentes no componente StackView
         tipsStackView.addArrangedSubview(tip1)
         tipsStackView.addArrangedSubview(tip2)
