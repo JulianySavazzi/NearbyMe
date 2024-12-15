@@ -1,5 +1,5 @@
 //
-//  Category.swift
+//  CategoryModel.swift
 //  NearbyMe
 //
 //  Created by Juliany Savazzi on 14/12/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Cetegory: Decodable {
+struct PlaceCetegory: Decodable {
     let id: String
     let name: String
 }

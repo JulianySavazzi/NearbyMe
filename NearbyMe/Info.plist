@@ -19,5 +19,12 @@
 			</array>
 		</dict>
 	</dict>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Este aplicativo precisa acessar a rede local para se conectar ao servidor.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

@@ -11,6 +11,10 @@ import MapKit
 //tela com mapa nativo do UIKit e TableView
 class HomeView: UIView {
     
+    private var filterButtonAction: ((PlaceCetegory) -> Void)?
+    private var categories: [PlaceCetegory] = []
+    private var selectedButton: UIButton?
+    
     //mapa nativo do IOS
     let mapView: MKMapView = {
         let mapView = MKMapView()
@@ -95,6 +99,7 @@ class HomeView: UIView {
         containerView.addSubview(descriptionLabel)
         containerView.addSubview(placesTableView)
         
+        setupPanGesture()
         setupConstraints()
     }
 
@@ -143,4 +148,123 @@ class HomeView: UIView {
         ])
         
     }
+    
+    func configureTableViewDelegate(_ delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
+        placesTableView.delegate = delegate
+        placesTableView.dataSource = dataSource
+    }
+    
+    //reconhecer os gestos feitos na tela pelos usuarios
+    func setupPanGesture() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        containerView.addGestureRecognizer(panGesture) //adicionando os gestos ao metodo
+    }
+    
+    func updateFilterButtons(with categories: [PlaceCetegory], action: @escaping (PlaceCetegory) -> Void) {
+        //usando icones da apple do UIkit
+        let categoryIcons: [String: String] = [
+            "Alimentação" : "fork.knife",
+            "Compras" : "cart",
+            "Hospedagem" : "bed.double",
+            "Padaria" : "cup.and.saucer",
+        ] //dicionario -> estrutura de dados em que a chave e valor sao String
+     
+        self.categories = categories
+        self.filterButtonAction = action
+        
+        //atribuindo os icones a cada categoria e adicionando o botao de filtro
+        for (index, category) in categories.enumerated() {
+            let iconName = categoryIcons[category.name] ?? "questionmark.circle"
+            let button = createFilterButton(title: category.name, iconName: iconName)
+            button.tag = index
+            button.addTarget(self, action: #selector(filterButtonTapped(_:)), for: .touchUpInside)
+            filterStackView.addArrangedSubview(button)
+        }
+    }
+    
+    private func createFilterButton(title: String, iconName: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.setImage(UIImage(systemName: iconName), for: .normal)
+        button.layer.cornerRadius = 8
+        button.tintColor = Colors.gray600
+        button.backgroundColor = Colors.gray100
+        button.setTitleColor(Colors.gray600, for: .normal)
+        button.titleLabel?.font = Typography.textSM
+        button.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageView?.heightAnchor.constraint(equalToConstant: 13).isActive = true
+        button.imageView?.widthAnchor.constraint(equalToConstant: 13).isActive = true
+        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 8)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        filterStackView.isLayoutMarginsRelativeArrangement = true
+        filterStackView.layoutMargins = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+        
+        return button
+    }
+    
+    //mudar a cor do botao selecionado
+    private func updateButtonSelection(button: UIButton) {
+        if let previousButton = selectedButton {
+            previousButton.backgroundColor = Colors.gray100
+            previousButton.setTitleColor(Colors.gray600, for: .normal)
+            previousButton.tintColor = Colors.gray600
+        }
+        
+        button.backgroundColor = Colors.purpleBase
+        button.setTitleColor(Colors.gray100, for: .normal)
+        button.tintColor = Colors.gray100
+        
+        selectedButton = button
+    }
+    
+    //expor a funcao de filtrar categoria para o ObjectiveC -> base do IOS
+    @objc
+    private func filterButtonTapped(_ sender: UIButton) {
+        let selectedCategory = categories[sender.tag]
+        updateButtonSelection(button: sender)
+        filterButtonAction?(selectedCategory)
+    }
+    
+    func reloadTableViewData() {
+        DispatchQueue.main.async {
+            self.placesTableView.reloadData()
+        }
+    }
+    
+    //reconhecer cliques e toques na tela
+    @objc
+    func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: self)
+        let velocity = gesture.velocity(in: self)
+        
+        switch gesture.state {
+        case .changed:
+            let newConstant = containerTopConstraint.constant + translation.y
+            if newConstant <= 0 && newConstant >= frame.height * 0.5 {
+                containerTopConstraint.constant = newConstant
+                gesture.setTranslation(.zero, in: self)
+            }
+        case .ended:
+            let halfScreenHeight = -frame.height * 0.25
+            let finalPosition: CGFloat
+            
+            if velocity.y > 0 {
+                finalPosition = 0
+            } else {
+                finalPosition = halfScreenHeight
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.containerTopConstraint.constant = finalPosition
+                self.layoutIfNeeded() //atualizar o layout da tela
+            })
+        default:
+            break
+        }
+        
+    }
+    
 }
