@@ -73,7 +73,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
                 
         //configurando as linhas (items) da lista
-        cell.configure(with: places[indexPath.row])
+        if indexPath.row < places.count {
+            cell.configure(with: places[indexPath.row])
+        } else {
+            print("Indice fora do intervalo: \(indexPath.row)")
+        }
         return cell
     }
     
