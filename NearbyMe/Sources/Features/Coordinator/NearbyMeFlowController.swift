@@ -21,7 +21,8 @@ class NearbyMeFlowController {
         let contentView = SplashView()
         //instanciando nossa Splash -> direcionamento e carregamento de telas
 //        let startViewController = SplashViewController(contentView: contentView, delegate: self)
-        let startViewController = HomeViewController()
+//        let startViewController = HomeViewController()
+        let startViewController = DetailsViewController()
         //atribuindo valor ao nosso navigationController
         self.navigationController = UINavigationController(rootViewController: startViewController)
         
