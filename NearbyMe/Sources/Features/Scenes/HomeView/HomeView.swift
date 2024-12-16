@@ -200,8 +200,8 @@ class HomeView: UIView {
         button.imageView?.contentMode = .scaleAspectFit
         button.imageView?.heightAnchor.constraint(equalToConstant: 13).isActive = true
         button.imageView?.widthAnchor.constraint(equalToConstant: 13).isActive = true
-        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 8)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+//        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 8)
+//        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         button.translatesAutoresizingMaskIntoConstraints = false
         
 //        filterStackView.isLayoutMarginsRelativeArrangement = true

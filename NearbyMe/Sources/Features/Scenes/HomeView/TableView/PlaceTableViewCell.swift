@@ -93,7 +93,7 @@ class PlaceTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            containerView.leadingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             
             itemImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
@@ -109,7 +109,8 @@ class PlaceTableViewCell: UITableViewCell {
         
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             descriptionLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 16),
-            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            descriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: ticketIcon.topAnchor, constant: -8),
             
             ticketIcon.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 16),
             ticketIcon.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
