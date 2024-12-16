@@ -32,6 +32,7 @@ class DetailsViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = Typography.titleLG
+        label.numberOfLines = 0
         label.textColor = .black
         return label
     }()
@@ -57,6 +58,7 @@ class DetailsViewController: UIViewController {
         let label = UILabel()
         label.font = Typography.titleMD
         label.textColor = Colors.gray500
+        label.numberOfLines = 0
         label.text = "Regulamento"
         return label
     }()
@@ -65,6 +67,7 @@ class DetailsViewController: UIViewController {
         let label = UILabel()
         label.font = Typography.titleMD
         label.textColor = Colors.gray500
+        label.numberOfLines = 0
         label.text = "Utilize esse cupom"
         return label
     }()
@@ -103,6 +106,7 @@ class DetailsViewController: UIViewController {
         label.font = Typography.titleMD
         label.textColor = Colors.gray600
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
@@ -226,8 +230,11 @@ class DetailsViewController: UIViewController {
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 32),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
             
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            descriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             
             infoTitleLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 23),
             infoTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
@@ -300,7 +307,6 @@ class DetailsViewController: UIViewController {
         infoStackView.addArrangedSubview(createInfoRow(iconName: "phone", text: place.phone))
         
         regulationLabel.text = """
-        Regulamento
         * Válido apenas para consumo no local
         * Disponível até 31/12/2024
         """
