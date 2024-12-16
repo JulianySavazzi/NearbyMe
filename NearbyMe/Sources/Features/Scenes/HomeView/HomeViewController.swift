@@ -88,6 +88,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     //navegacao na lista -> selecionar items
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+         
+        //tela de detalhes
+        let details = DetailsViewController()
+        details.place = places[indexPath.row]
+        navigationController?.pushViewController(details, animated: true) //trocando de tela
     }
     
 }

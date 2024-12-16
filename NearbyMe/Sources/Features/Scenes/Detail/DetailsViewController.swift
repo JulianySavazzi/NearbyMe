@@ -153,6 +153,8 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupBackButton()
+        configureDetails()
         self.navigationController?.navigationBar.isHidden = true
     }
     
@@ -221,14 +223,122 @@ class DetailsViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: -20),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 32),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            
+            infoTitleLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 23),
+            infoTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            
+            infoStackView.topAnchor.constraint(equalTo: infoTitleLabel.bottomAnchor, constant: 12),
+            
+            divider.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 16),
+            divider.heightAnchor.constraint(equalToConstant: 1),
+            
+            regulationTitleLabel.topAnchor.constraint(equalTo: divider.bottomAnchor, constant: 16),
+            regulationTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            
+            regulationLabel.topAnchor.constraint(equalTo: regulationTitleLabel.bottomAnchor, constant: 12),
+            
+            divider2.topAnchor.constraint(equalTo: regulationLabel.bottomAnchor, constant: 16),
+            divider2.heightAnchor.constraint(equalToConstant: 1),
+            
+            couponTitleLabel.topAnchor.constraint(equalTo: divider2.bottomAnchor, constant: 16),
+            couponTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24),
+            
+            couponStackView.topAnchor.constraint(equalTo: couponTitleLabel.bottomAnchor, constant: 12),
+            couponStackView.heightAnchor.constraint(equalToConstant: 40),
+            
+            qrCodeButton.heightAnchor.constraint(equalToConstant: 44),
+            qrCodeButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -32),
+          
         ])
+        
+        applyLateralConstraints(to: titleLabel)
+        applyLateralConstraints(to: infoStackView)
+        applyLateralConstraints(to: divider)
+        applyLateralConstraints(to: divider2)
+        applyLateralConstraints(to: regulationLabel)
+        applyLateralConstraints(to: couponStackView)
+        applyLateralConstraints(to: qrCodeButton)
     }
     
     private func applyLateralConstraints(to view: UIView) {
         NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 24)
-            view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 24)
+            view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24)
         ])
+    }
+    
+    private func setupBackButton() {
+        view.addSubview(backButton)
+        backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            backButton.heightAnchor.constraint(equalToConstant: 40),
+            backButton.widthAnchor.constraint(equalToConstant: 40),
+        ])
+    }
+    
+    @objc
+    private func didTapButton() {
+        self.navigationController?.popViewController(animated: true) //tirar a tela da pilha de execuçao -> popViewController
+    }
+    
+    private func configureDetails() {
+        guard let place = place else {return}
+        titleLabel.text = place.name
+        descriptionLabel.text = place.description
+        
+        infoStackView.addArrangedSubview(createInfoRow(iconName: "ticketIcon", text: "\(place.coupons) cupons disponíveis"))
+        infoStackView.addArrangedSubview(createInfoRow(iconName: "mapIcon", text: place.address))
+        infoStackView.addArrangedSubview(createInfoRow(iconName: "phone", text: place.phone))
+        
+        regulationLabel.text = """
+        Regulamento
+        * Válido apenas para consumo no local
+        * Disponível até 31/12/2024
+        """
+        
+        couponCodeLabel.text = place.id
+        
+        if let url = URL(string: place.cover) {
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                if let error = error {
+                    print("Erro ao carregar imagem: \(error)")
+                }
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.coverImageView.image = image
+                    }
+                }
+                
+            }.resume() //resume executa a requisicao
+        }
+    }
+    
+    private func createInfoRow(iconName: String, text: String) -> UIStackView {
+        let iconImageView = UIImageView(image: UIImage(named: iconName))
+        iconImageView.contentMode = .scaleAspectFill
+        iconImageView.tintColor = Colors.gray500
+        iconImageView.widthAnchor.constraint(equalToConstant: 16).isActive = true
+        iconImageView.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let label = UILabel()
+        label.text = text
+        label.font = Typography.textSM
+        label.textColor = Colors.gray400
+        
+        let stackView = UIStackView(arrangedSubviews: [iconImageView, label])
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        
+        return stackView
     }
 }
