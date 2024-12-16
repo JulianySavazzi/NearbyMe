@@ -1,8 +1,11 @@
 # NearbyMe - Aplicativo Móvel Swift Nativo para IOS com consumo de API
+O NearbyMe é um aplicativo que concome uma API de locais parceiros, a qual fornece localização, informações sobre o local (nome do estabelecimento, descrição, telefone) e cupons de desconto.  
 
 ## Tecnologias utilizadas:
 * Swift
 * UIKit
+* MapKit
+* Foundation
 * Cocoapods
 
 ## Padrões de Projeto: 
