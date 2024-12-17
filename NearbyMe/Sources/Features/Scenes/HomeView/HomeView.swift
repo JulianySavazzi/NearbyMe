@@ -73,6 +73,7 @@ class HomeView: UIView {
     private let placesTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(PlaceTableViewCell.self, forCellReuseIdentifier: PlaceTableViewCell.identifier) //cada linha da tabela vai conter um PlaceTableViewCell
+        tableView.backgroundColor = Colors.gray100
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -104,11 +105,15 @@ class HomeView: UIView {
     }
 
     private func setupConstraints() {
+        //self para se referir ao tamanho da tela dentro do contexto da view HomeView
+//        let minMapHeight = self.frame.height * 0.3 //Altura mínima: 30% da tela
+        
         //o constraint multiplier significa qual porcentagem da tela queremos que aquele elemento ocupe -> 0.65 = 65%
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: topAnchor),
             mapView.leadingAnchor.constraint(equalTo: leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            mapView.heightAnchor.constraint(greaterThanOrEqualToConstant: minMapHeight),
             mapView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.65),
             
             filterScrollView.topAnchor.constraint(equalTo: topAnchor, constant: 80),
@@ -130,6 +135,7 @@ class HomeView: UIView {
         //queremos que o height do nosso container seja dinamico, para isso vamos deixar seu topAnchor dinamico
         containerTopConstraint = containerView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -16)
         containerTopConstraint.isActive = true
+        
         //array de constraints dos elementos dentro do container
         NSLayoutConstraint.activate([
             dragIndicatorView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
