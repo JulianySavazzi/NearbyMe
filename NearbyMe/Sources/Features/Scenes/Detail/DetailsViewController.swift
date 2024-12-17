@@ -83,9 +83,9 @@ class DetailsViewController: UIViewController {
     }()
     
     private let couponStackView: UIStackView = {
-        let iconImageView = UIImageView(image: UIImage(named: "ticket"))
+        let iconImageView = UIImageView(image: UIImage(named: "ticketIcon"))
         iconImageView.contentMode = .scaleAspectFit
-        iconImageView.tintColor = Colors.purpleBase
+        iconImageView.tintColor = Colors.purpleDark
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
         iconImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -307,8 +307,8 @@ class DetailsViewController: UIViewController {
         infoStackView.addArrangedSubview(createInfoRow(iconName: "phone", text: place.phone))
         
         regulationLabel.text = """
-        * Válido apenas para consumo no local
-        * Disponível até 31/12/2024
+        • Válido apenas para consumo no local
+        • Disponível até 31/12/2024
         """
         
         couponCodeLabel.text = place.id
