@@ -71,6 +71,8 @@ class PlaceTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        // Alterando o background color do contentView
+        contentView.backgroundColor = Colors.gray100
     }
     
     required init?(coder: NSCoder) {
@@ -78,7 +80,8 @@ class PlaceTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        addSubview(containerView)
+        //adicionando o containerView no contentView que esta com o background color alterado
+        contentView.addSubview(containerView)
         //adicionando as subviews ao container view
         containerView.addSubview(itemImageView)
         containerView.addSubview(titleLabel)
@@ -91,9 +94,9 @@ class PlaceTableViewCell: UITableViewCell {
     private func setupConstraints() {
         //podemos usar no constraint equalTo -> contentView. ou self. ou colocar apenas a direção (topAnchor, leadingAnchor etc)
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            containerView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
             
             itemImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
@@ -137,7 +140,6 @@ class PlaceTableViewCell: UITableViewCell {
             }.resume()
         }
         
-//        itemImageView.image = UIImage(named: place.cover)
         titleLabel.text = place.name
         descriptionLabel.text = place.description
         ticketLabel.text = "\(place.coupons) cupons disponíveis"

@@ -104,16 +104,12 @@ class HomeView: UIView {
         setupConstraints()
     }
 
-    private func setupConstraints() {
-        //self para se referir ao tamanho da tela dentro do contexto da view HomeView
-//        let minMapHeight = self.frame.height * 0.3 //Altura mínima: 30% da tela
-        
+    private func setupConstraints() {        
         //o constraint multiplier significa qual porcentagem da tela queremos que aquele elemento ocupe -> 0.65 = 65%
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: topAnchor),
             mapView.leadingAnchor.constraint(equalTo: leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            mapView.heightAnchor.constraint(greaterThanOrEqualToConstant: minMapHeight),
             mapView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.65),
             
             filterScrollView.topAnchor.constraint(equalTo: topAnchor, constant: 80),
@@ -206,12 +202,7 @@ class HomeView: UIView {
         button.imageView?.contentMode = .scaleAspectFit
         button.imageView?.heightAnchor.constraint(equalToConstant: 13).isActive = true
         button.imageView?.widthAnchor.constraint(equalToConstant: 13).isActive = true
-//        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 8)
-//        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         button.translatesAutoresizingMaskIntoConstraints = false
-        
-//        filterStackView.isLayoutMarginsRelativeArrangement = true
-//        filterStackView.layoutMargins = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         
         return button
     }
