@@ -336,6 +336,25 @@ class DetailsViewController: UIViewController {
         iconImageView.heightAnchor.constraint(equalToConstant: 16).isActive = true
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
+        //Tenta carregar a imagem do Asset Catalog primeiro
+        if let image = UIImage(named: iconName) {
+            iconImageView.image = image
+        } else {
+            //Se não encontrar no Asset Catalog, verifica a versão do iOS e tenta criar um SF Symbol
+            if #available(iOS 13.0, *) {
+                if let systemImage = UIImage(systemName: iconName) {
+                    iconImageView.image = systemImage
+                } else {
+                    //Tratar o caso em que o ícone não existe nem no Asset Catalog nem como SF Symbol
+                    print("Ícone '\(iconName)' não encontrado.")
+                    iconImageView.image = UIImage(systemName: "questionmark.circle") //Ícone de interrogação como fallback
+                }
+            } else {
+                print("Ícone '\(iconName)' não encontrado.")
+                iconImageView.image = UIImage(systemName: "questionmark.circle") //Ícone de interrogação como fallback
+            }
+        }
+        
         let label = UILabel()
         label.text = text
         label.font = Typography.textSM
